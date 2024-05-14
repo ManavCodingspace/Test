@@ -5,50 +5,51 @@ records from the file and display them.
 #include <iostream>
 #include <fstream>
 #include <string>
+
 using namespace std;
 
-
-class student {
+// Define the Student class
+class Student {
+private:
+    int rollNo;
+    string name;
+    string className;
+    int year;
+    double totalMarks;
 
 public:
-   int rollno = 0;
-   int year = 0;
-   int totalmarks = 0;
-   string className;
-   string name;
+    // Constructor to initialize the Student object
+    Student(int roll, const string& n, const string& cls, int yr, double marks) : 
+        rollNo(roll), name(n), className(cls), year(yr), totalMarks(marks) {}
 
-    student(int rollno, const string& n, const string& cls, int yr, double marks): rollno(rollno), name(n), className(cls), year(yr), totalmarks(marks) {}
-
-
+    // Function to display the student details
     void display() {
-
-        cout<<"Roll no : "<< rollno << endl;
-        cout << "Name: "<<name << endl;
-        cout << "Class : "<< className << endl;
+        cout << "Roll No: " << rollNo << endl;
+        cout << "Name: " << name << endl;
+        cout << "Class: " << className << endl;
         cout << "Year: " << year << endl;
-        cout << "Toatal marks : "<< totalmarks << endl;
+        cout << "Total Marks: " << totalMarks << endl;
     }
 
+    // Function to write student details to a file
     void writeToFile(ofstream& fout) {
+        fout << rollNo << " " << name << " " << className << " " << year << " " << totalMarks << endl;
+    }
 
-        fout << rollno << " " <<name << " " << className << " " << year << " " << totalmarks << " " << endl;
-    } 
-
-    void readToFile(ifstream& fin) { 
-        fin >> rollno >> className >> name >> year>> totalmarks;
-    }  
-
-
+    // Function to read student details from a file
+    void readFromFile(ifstream& fin) {
+        fin >> rollNo >> name >> className >> year >> totalMarks;
+    }
 };
 
 int main() {
     // Create 5 student objects
-    student students[] = {
-        student(101, "Alice", "Class 10", 2024, 450),
-        student(102, "Bob", "Class 11", 2023, 480),
-        student(103, "Charlie", "Class 12", 2022, 490),
-        student(104, "David", "Class 9", 2025, 430),
-        student(105, "Eva", "Class 8", 2026, 410)
+    Student students[] = {
+        Student(101, "Alice", "Class 10", 2024, 450),
+        Student(102, "Bob", "Class 11", 2023, 480),
+        Student(103, "Charlie", "Class 12", 2022, 490),
+        Student(104, "David", "Class 9", 2025, 430),
+        Student(105, "Eva", "Class 8", 2026, 410)
     };
 
     // Write student details to a file
@@ -72,8 +73,8 @@ int main() {
 
     cout << "Student Records:" << endl;
     while (!fin.eof()) {
-        student student(0, "", "", 0, 0); // Temporary student object
-        student.readToFile(fin);
+        Student student(0, "", "", 0, 0); // Temporary student object
+        student.readFromFile(fin);
         student.display();
         cout << endl;
     }
