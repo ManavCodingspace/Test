@@ -1,39 +1,35 @@
 # Write a program that prints a table indicating the number of occurrences of each alphabet in the text entered as command line arguments?
 
 #include <iostream>
-#include <string>
 #include <unordered_map>
-
+#include <cctype> // For isalpha
 using namespace std;
 
-int main(int argc, char *argv[]) {
-    if (argc < 2) {
+void printAlphabetFrequency(const string& text) {
+    unordered_map<char, int> frequencyMap;
+
+    // Count frequency of each alphabet
+    for (char ch : text) {
+        if (isalpha(ch)) {
+            frequencyMap[tolower(ch)]++;
+        }
+    }
+
+    // Print the table
+    cout << "Alphabet Frequency Table:\n";
+    for (char ch = 'a'; ch <= 'z'; ++ch) {
+        cout << ch << ": " << frequencyMap[ch] << endl;
+    }
+}
+
+int main(int argc, char* argv[]) {
+    if (argc != 2) {
         cout << "Usage: " << argv[0] << " <text>" << endl;
         return 1;
     }
 
-    unordered_map<char, int> charCount;
-
-    // Iterate through each command line argument
-    for (int i = 1; i < argc; ++i) {
-        string word(argv[i]);
-
-        // Iterate through each character in the word
-        for (char c : word) {
-            if (isalpha(c)) {
-                // Increment the count of the character in the map
-                charCount[tolower(c)]++;
-            }
-        }
-    }
-
-    // Print the table of occurrences
-    cout << "Alphabet  Occurrences" << endl;
-    for (char c = 'a'; c <= 'z'; ++c) {
-        if (charCount.find(c) != charCount.end()) {
-            cout << "    " << c << "         " << charCount[c] << endl;
-        }
-    }
+    string text = argv[1];
+    printAlphabetFrequency(text);
 
     return 0;
 }
