@@ -1,0 +1,47 @@
+Write a program to calculate GCD of two numbers (i) with recursion (ii) without
+recursion.
+
+// with recursion
+#include <iostream>
+using namespace std;
+
+
+/*int greatest(int a, int b){
+
+    if(b == 0)
+    return a;
+
+    return greatest(b, a%b);
+}
+int main(){
+
+    int num1 = 24;
+    int num2 = 36;
+
+    cout << "GCD of " << num1 << "and" << num2 <<"is: " << greatest(num1,num2) <<endl;
+
+    return 0;
+}*/
+
+// without recursion 
+int gcd(int a, int b){
+
+    while(b!=0){
+
+        int temp = b;
+        b = a%b;
+        a = temp;
+    }
+
+    return a;
+}
+int main(){
+
+    int num1 = 24;
+    int num2 = 36;
+
+    cout << "GCD of " << num1 << "and" << num2 <<"is: " << gcd(num1,num2) <<endl;
+
+    return 0;
+}
+
