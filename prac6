@@ -1,0 +1,94 @@
+Write a program to search a given element in a set of N numbers using Binary search
+(i) with recursion (ii) without recursion
+
+// with recursion
+
+#include <iostream>
+using namespace std;
+
+int find(int arr[] , int a , int b, int c)
+{
+
+    if(b>=a) {
+        int mid = a + (b-a)/2;
+        
+
+     if (arr[mid] == c)
+            return mid;
+        
+    
+
+    if(arr[mid] > c){
+
+        return find(arr, a, mid-1,c);
+
+    }
+
+
+    else{
+        return find(arr, a, mid+1 , c);
+    }
+
+
+    return -1;
+    }
+}
+int main()
+{
+
+    int arr[] = {2,4,6,8,10,14,12,16,18,20};
+    int n = sizeof(arr) / sizeof(arr[0]);
+    int c = 12;
+
+    int result = find(arr , 0 , n - 1, c);
+    if(result != -1){
+        cout <<"Element found at the index of : "<< result<<endl;
+    }
+    else{
+        cout << "Element is not found: "<<endl;
+    }
+
+}
+
+// without recursion
+
+#include <iostream>
+using namespace std;
+
+// Iterative function to perform binary search
+int binarySearch(int arr[], int n, int target) {
+    int left = 0, right = n - 1;
+
+    while (left <= right) {
+        int mid = left + (right - left) / 2;
+
+        // If the element is present at the middle
+        if (arr[mid] == target)
+            return mid;
+
+        // If the element is smaller than mid, then search the left subarray
+        if (arr[mid] > target)
+            right = mid - 1;
+
+        // Otherwise, search the right subarray
+        else
+            left = mid + 1;
+    }
+
+    // If the element is not present in the array
+    return -1;
+}
+
+int main() {
+    int arr[] = {2, 4, 6, 8, 10, 12, 14, 16, 18, 20};
+    int n = sizeof(arr) / sizeof(arr[0]);
+    int target = 12;
+
+    int result = binarySearch(arr, n, target);
+    if (result != -1)
+        cout << "Element found at index: " << result << endl;
+    else
+        cout << "Element not found in the array." << endl;
+
+    return 0;
+}
