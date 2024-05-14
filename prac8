@@ -1,0 +1,132 @@
+Create a Matrix class. Write a menu-driven program to perform following Matrix
+operations (exceptions should be thrown by the functions if matrices passed to them are
+incompatible and handled by the main() function):
+a. Sum
+b. Product
+c. Transpose
+
+
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Matrix {
+private:
+    vector<vector<int>> mat;
+    int rows, cols;
+
+public:
+    // Constructor to initialize the matrix
+    Matrix(int r, int c) : rows(r), cols(c) {
+        mat.resize(rows, vector<int>(cols, 0));
+    }
+
+    // Function to input matrix elements
+    void inputMatrix() {
+        cout << "Enter matrix elements:" << endl;
+        for (int i = 0; i < rows; ++i) {
+            for (int j = 0; j < cols; ++j) {
+                cin >> mat[i][j];
+            }
+        }
+    }
+
+    // Function to display matrix elements
+    void displayMatrix() {
+        cout << "Matrix:" << endl;
+        for (int i = 0; i < rows; ++i) {
+            for (int j = 0; j < cols; ++j) {
+                cout << mat[i][j] << " ";
+            }
+            cout << endl;
+        }
+    }
+
+    // Function to check if matrices are compatible for addition or multiplication
+    bool areCompatible(const Matrix& other) const {
+        return rows == other.rows && cols == other.cols;
+    }
+
+    // Function to perform matrix addition
+    Matrix add(const Matrix& other) const {
+        if (!areCompatible(other)) {
+            throw invalid_argument("Matrices are not compatible for addition.");
+        }
+
+        Matrix result(rows, cols);
+        for (int i = 0; i < rows; ++i) {
+            for (int j = 0; j < cols; ++j) {
+                result.mat[i][j] = mat[i][j] + other.mat[i][j];
+            }
+        }
+        return result;
+    }
+
+    // Function to perform matrix multiplication
+    Matrix multiply(const Matrix& other) const {
+        if (cols != other.rows) {
+            throw invalid_argument("Matrices are not compatible for multiplication.");
+        }
+
+        Matrix result(rows, other.cols);
+        for (int i = 0; i < rows; ++i) {
+            for (int j = 0; j < other.cols; ++j) {
+                for (int k = 0; k < cols; ++k) {
+                    result.mat[i][j] += mat[i][k] * other.mat[k][j];
+                }
+            }
+        }
+        return result;
+    }
+
+    // Function to perform matrix transpose
+    Matrix transpose() const {
+        Matrix result(cols, rows);
+        for (int i = 0; i < rows; ++i) {
+            for (int j = 0; j < cols; ++j) {
+                result.mat[j][i] = mat[i][j];
+            }
+        }
+        return result;
+    }
+};
+
+int main() {
+    int choice, rows, cols;
+    cout << "Enter number of rows and columns of matrix: ";
+    cin >> rows >> cols;
+
+    Matrix mat1(rows, cols), mat2(rows, cols), result(rows, cols);
+
+    cout << "Enter elements of first matrix:" << endl;
+    mat1.inputMatrix();
+    cout << "Enter elements of second matrix:" << endl;
+    mat2.inputMatrix();
+
+    cout << "Menu:\n1. Sum\n2. Product\n3. Transpose\nEnter your choice: ";
+    cin >> choice;
+
+    try {
+        switch (choice) {
+            case 1:
+                result = mat1.add(mat2);
+                result.displayMatrix();
+                break;
+            case 2:
+                result = mat1.multiply(mat2);
+                result.displayMatrix();
+                break;
+            case 3:
+                result = mat1.transpose();
+                result.displayMatrix();
+                break;
+            default:
+                cout << "Invalid choice!" << endl;
+        }
+    } catch (const invalid_argument& e) {
+        cerr << "Error: " << e.what() << endl;
+    }
+
+    return 0;
+}
