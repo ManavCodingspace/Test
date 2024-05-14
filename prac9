@@ -1,0 +1,73 @@
+Define a class Person having name as a data member. Inherit two classes Student and
+Employee from Person. Student has additional attributes as course, marks and year and
+Employee has department and salary. Write display() method in all the three classes to
+display the corresponding attributes. Provide the necessary methods to show runtime
+polymorphism
+
+#include <iostream>
+using namespace std;
+
+class Person {
+protected:
+     string name ;
+public:
+     Person(const string& n): name(n) {}
+     virtual void display() {
+        cout << "Name: " << name << endl;
+
+     }
+
+};
+class student : public Person {
+
+    private: 
+      string course;
+      int marks;
+      int year;
+
+    public:
+     student(const string& n, const string& c, int m, int y ) : Person(n), course(c), marks(m), year(y) {}
+
+    void display() override {
+
+        cout << "Student details: " << endl;
+        Person::display();
+        cout << "Course: " << course<< endl;
+        cout << "Marks: " << marks<< endl;
+        cout << "Year: "<< year<< endl;
+    } 
+};
+
+class Employment : public Person {
+
+    private:
+      string Department ;
+      double salary;
+
+    public:
+     Employment(const string& n, const string& d , double salary): Person(n), Department(d), salary(salary) {}
+
+    void display() override {
+
+        cout << "Employee Details: "<< endl;
+        Person::display();
+        cout << "Department: "<< Department<<  endl;
+        cout << "Salary: "<< salary<< endl;
+    } 
+};
+
+void showDetails(Person& p ) {
+
+    p.display();
+}
+
+int main(){
+
+    student student("Manav ", "Computer Science", 90, 2024);
+    Employment Employment("Raghav", "Human Resources", 50000);
+
+    showDetails(student );
+    cout << endl;
+    showDetails(Employment);
+
+}
