@@ -1,0 +1,58 @@
+Copy the contents of one text file to another file, after removing all whitespaces.
+
+
+#include <iostream>
+#include <fstream>
+#include <string>
+
+using namespace std;
+
+// Function to remove whitespaces from a string
+string removeWhitespaces(const string& str) {
+    string result;
+    for (char c : str) {
+        if (!isspace(c)) {
+            result += c;
+        }
+    }
+    return result;
+}
+
+int main() {
+    string inputFileName, outputFileName;
+    
+    // Get input and output file names from the user
+    cout << "Enter input file name: ";
+    getline(cin, inputFileName);
+    cout << "Enter output file name: ";
+    getline(cin, outputFileName);
+
+    // Open input file for reading
+    ifstream fin(inputFileName);
+    if (!fin) {
+        cerr << "Error: Unable to open input file." << endl;
+        return 1;
+    }
+
+    // Open output file for writing
+    ofstream fout(outputFileName);
+    if (!fout) {
+        cerr << "Error: Unable to open output file." << endl;
+        return 1;
+    }
+
+    // Read input file line by line, remove whitespaces, and write to output file
+    string line;
+    while (getline(fin, line)) {
+        string modifiedLine = removeWhitespaces(line);
+        fout << modifiedLine << endl;
+    }
+
+    cout << "Contents copied to " << outputFileName << " after removing whitespaces." << endl;
+
+    // Close files
+    fin.close();
+    fout.close();
+
+    return 0;
+}
